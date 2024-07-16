@@ -24,7 +24,9 @@ class Subscribe(object):
             print("Connection Error")
             return
 
-        all_subs = base64.b64decode(ret.text).decode().strip().split("\n")
+        rettext = ret.text.strip()
+        rettext = rettext + '=' * (-len(rettext) % 4)
+        all_subs = base64.b64decode(rettext).decode().strip().split("\n")
 
         for item in all_subs:
             subs = []
@@ -117,4 +119,10 @@ class Subscribe(object):
             return
 
         os.system("killall v2ray")
-        os.system("/usr/bin/v2ray/v2ray ./config.json &")
+        #os.system("/usr/bin/v2ray/v2ray ./config.json &")
+        os.system("/home/wangchao/ssproxy/qv2ray-linux-64/v2ray ./config.json &")
+        print("json_template_pathname 里的 inbounds 里的port就是本机的http翻墙端口 默认是 10809")
+        print("cli翻墙执行：")
+        print("export http_proxy=http://127.0.0.1:10809")
+        print("export https_proxy=http://127.0.0.1:10809")
+
